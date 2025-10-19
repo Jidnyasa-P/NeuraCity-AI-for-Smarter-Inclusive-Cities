@@ -19,7 +19,7 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="dashboard.html" class="active">Dashboard</a></li>
-            <li><a href="map-view.html">Map View</a></li>
+            <li><a href="dash-map.html">Map View</a></li>
             <li><a href="analytics.html">Analytics</a></li>
             <li><a href="community.html">Community</a></li>
         </ul>
@@ -34,7 +34,19 @@
             
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front metric-card">
+                    <div class="flip-card-front metric-card" 
+                         onclick="openPopup(
+                            'Air Quality Report', 
+                            '<h3>Live Pollutant Data</h3>' +
+                            '<p>Data sourced from 250+ sensors across NeuraCity.</p>' +
+                            '<ul>' +
+                                '<li><strong>PM2.5:</strong> 12 µg/m³ (<span style=\'color:var(--teal);\'>Good</span>)</li>' +
+                                '<li><strong>Ozone (O₃):</strong> 34 ppb (<span style=\'color:var(--teal);\'>Good</span>)</li>' +
+                                '<li><strong>NO₂:</strong> 18 ppb (<span style=\'color:var(--teal);\'>Good</span>)</li>' +
+                            '</ul>' +
+                            '<h3>Health Advisory</h3>' +
+                            '<p>Air quality is considered satisfactory, and air pollution poses little or no risk. It\'s a great day to be outside!</p>'
+                         )">
                         <div class="metric-icon">🌿</div>
                         <div class="metric-value">78%</div>
                         <div class="metric-label">Air Quality</div>
@@ -46,14 +58,39 @@
                         <p>Particulate Matter (PM2.5): 12 µg/m³</p>
                         <p>Ozone (O₃): 34 ppb</p>
                         <p>Last updated: 2 mins ago</p>
-                        <a href="#">See full report</a>
+                        <a href="#" onclick="event.preventDefault(); openPopup(
+                            'Air Quality Report', 
+                            '<h3>Live Pollutant Data</h3>' +
+                            '<p>Data sourced from 250+ sensors across NeuraCity.</p>' +
+                            '<ul>' +
+                                '<li><strong>PM2.5:</strong> 12 µg/m³ (<span style=\'color:var(--teal);\'>Good</span>)</li>' +
+                                '<li><strong>Ozone (O₃):</strong> 34 ppb (<span style=\'color:var(--teal);\'>Good</span>)</li>' +
+                                '<li><strong>NO₂:</strong> 18 ppb (<span style=\'color:var(--teal);\'>Good</span>)</li>' +
+                            '</ul>' +
+                            '<h3>Health Advisory</h3>' +
+                            '<p>Air quality is considered satisfactory, and air pollution poses little or no risk. It\'s a great day to be outside!</p>'
+                         )">See full report</a>
                     </div>
                 </div>
             </div>
 
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front metric-card">
+                    <div class="flip-card-front metric-card" 
+                         onclick="openPopup(
+                            'Accessibility Report',
+                            '<h3>Score Breakdown</h3>' +
+                            '<p>Our 85% score is based on the following metrics:</p>' +
+                            '<ul>' +
+                                '<li><strong>Public Transport:</strong> 92% (Wheelchair accessible buses & trains)</li>' +
+                                '<li><strong>Public Buildings:</strong> 88% (Ramps, elevators, accessible restrooms)</li>' +
+                                '<li><strong>Sidewalks & Crossings:</strong> 75% (Curb ramps & tactile paving)</li>' +
+                            '</ul>' +
+                            '<h3>Recent Improvements</h3>' +
+                            '<p>+200 new curb ramps installed in the Downtown district last quarter. We are actively working on improving sidewalk scores.</p>' +
+                            '' +
+                            '<a href=\'#\' class=\'modal-link\' onclick=\'event.preventDefault(); openReportModal();\'>Report an accessibility issue</a>'
+                         )">
                         <div class="metric-icon">♿</div>
                         <div class="metric-value">85%</div>
                         <div class="metric-label">Accessibility Score</div>
@@ -64,14 +101,39 @@
                         <h3>Accessibility Details</h3>
                         <p>92% of public transport is wheelchair accessible.</p>
                         <p>4,200+ curb ramps installed.</p>
-                        <a href="#">View accessibility map</a>
+                        <a href="#" onclick="event.preventDefault(); openPopup(
+                            'Accessibility Report',
+                            '<h3>Score Breakdown</h3>' +
+                            '<p>Our 85% score is based on the following metrics:</p>' +
+                            '<ul>' +
+                                '<li><strong>Public Transport:</strong> 92% (Wheelchair accessible buses & trains)</li>' +
+                                '<li><strong>Public Buildings:</strong> 88% (Ramps, elevators, accessible restrooms)</li>' +
+                                '<li><strong>Sidewalks & Crossings:</strong> 75% (Curb ramps & tactile paving)</li>' +
+                            '</ul>' +
+                            '<h3>Recent Improvements</h3>' +
+                            '<p>+200 new curb ramps installed in the Downtown district last quarter. We are actively working on improving sidewalk scores.</p>' +
+                            '' +
+                            '<a href=\'#\' class=\'modal-link\' onclick=\'event.preventDefault(); openReportModal();\'>Report an accessibility issue</a>'
+                         )">View accessibility map</a>
                     </div>
                 </div>
             </div>
 
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front metric-card">
+                    <div class="flip-card-front metric-card" 
+                         onclick="openPopup(
+                            'Live Traffic Report',
+                            '<h3>Current Hotspots</h3>' +
+                            '<p>Real-time congestion levels:</p>' +
+                            '<ul>' +
+                                '<li><strong>Main St. Bridge:</strong> <span style=\'color:red;\'>Heavy</span> (Accident reported)</li>' +
+                                '<li><strong>I-25 Northbound:</strong> <span style=\'color:orange;\'>Moderate</span> (Rush hour)</li>' +
+                                '<li><strong>City Center Loop:</strong> <span style=\'color:var(--teal);\'>Light</span></li>' +
+                            '</ul>' +
+                            '<h3>Average Commute</h3>' +
+                            '<p>City-wide average is <span style=\'color:var(--cyan);\'>28 minutes</span>. This is 3% faster than last week.</p>'
+                         )">
                         <div class="metric-icon">🚗</div>
                         <div class="metric-value">62%</div>
                         <div class="metric-label">Traffic Density</div>
@@ -83,14 +145,40 @@
                         <p>Average commute time: 28 mins</p>
                         <p>Hotspots: Downtown, Bridge St.</p>
                         <p>Public transport use: 45%</p>
-                        <a href="#">See live traffic</a>
+                        <a href="#" onclick="event.preventDefault(); openPopup(
+                            'Live Traffic Report',
+                            '<h3>Current Hotspots</h3>' +
+                            '<p>Real-time congestion levels:</p>' +
+                            '<ul>' +
+                                '<li><strong>Main St. Bridge:</strong> <span style=\'color:red;\'>Heavy</span> (Accident reported)</li>' +
+                                '<li><strong>I-25 Northbound:</strong> <span style=\'color:orange;\'>Moderate</span> (Rush hour)</li>' +
+                                '<li><strong>City Center Loop:</strong> <span style=\'color:var(--teal);\'>Light</span></li>' +
+                            '</ul>' +
+                            '<h3>Average Commute</h3>' +
+                            '<p>City-wide average is <span style=\'color:var(--cyan);\'>28 minutes</span>. This is 3% faster than last week.</p>'
+                         )">See live traffic</a>
                     </div>
                 </div>
             </div>
 
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front metric-card">
+                    <div class="flip-card-front metric-card" 
+                         onclick="openPopup(
+                            'City Safety Report',
+                            '<h3>Live Safety Stats</h3>' +
+                            '<ul>' +
+                                '<li><strong>Avg. Emergency Response:</strong> 4m 12s</li>' +
+                                '<li><strong>Active Patrols Online:</strong> 1,522</li>' +
+                                '<li><strong>Noise Violations (24h):</strong> 45</li>' +
+                                '<li><strong>Active Incidents:</strong> 8 (Minor)</li>' +
+                            '</ul>' +
+                            '<h3>City-Wide Alerts</h3>' +
+                            '<p><span style=\'color:var(--teal);\'>No active city-wide alerts at this time.</span></g>' +
+                            '<h3>Community Watch</h3>' +
+                            '' +
+                            '<p>Join your local neighborhood watch program. <a href=\'dash-map.html?layer=districts\' class=\'modal-link\'>Find your district.</a></p>'
+                         )">
                         <div class="metric-icon">🛡️</div>
                         <div class="metric-value">91%</div>
                         <div class="metric-label">Safety Index</div>
@@ -102,7 +190,21 @@
                         <p>Emergency response: 4 mins avg.</p>
                         <p>1,500+ active patrols</p>
                         <p>Crime rate down 5% vs. last year.</p>
-                        <a href="#">View incident report</a>
+                        <a href="#" onclick="event.preventDefault(); openPopup(
+                            'City Safety Report',
+                            '<h3>Live Safety Stats</h3>' +
+                            '<ul>' +
+                                '<li><strong>Avg. Emergency Response:</strong> 4m 12s</li>' +
+                                '<li><strong>Active Patrols Online:</strong> 1,522</li>' +
+                                '<li><strong>Noise Violations (24h):</strong> 45</li>' +
+                                '<li><strong>Active Incidents:</strong> 8 (Minor)</li>' +
+                            '</ul>' +
+                            '<h3>City-Wide Alerts</h3>' +
+                            '<p><span style=\'color:var(--teal);\'>No active city-wide alerts at this time.</span></g>' +
+                            '<h3>Community Watch</h3>' +
+                            '' +
+                            '<p>Join your local neighborhood watch program. <a href=\'dash-map.html?layer=districts\' class=\'modal-link\'>Find your district.</a></p>'
+                         )">View incident report</a>
                     </div>
                 </div>
             </div>
@@ -119,7 +221,9 @@
             </div>
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot">
-                    Hi! I'm Neura, your AI city assistant. Ask me anything about our city metrics, traffic, air quality, or accessibility!
+                    Hi! I'm Neura, your AI city assistant. Ask me
+                    anything about our city metrics, traffic, air quality,
+                    or accessibility!
                 </div>
             </div>
             <div class="chat-input-area">
@@ -129,6 +233,46 @@
             </div>
         </div>
     </div>
+
+    <div id="popupModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePopup()">&times;</button>
+            <h3 id="modalTitle"></h3>
+            <div id="modalBody">
+                </div>
+        </div>
+    </div>
+
+    <div id="reportModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeReportModal()">&times;</button>
+            <h3 id="reportModalTitle">Report an Accessibility Issue</h3>
+            <div id="reportModalBody">
+                <p>Click on the map to place a pin, or fill in the details below.</p>
+                <div id="reportMap"></div>
+                
+                <form id="reportForm">
+                    <input type="hidden" id="reportLat" name="latitude">
+                    <input type="hidden" id="reportLng" name="longitude">
+                    
+                    <label for="reportType">Type of Issue:</label>
+                    <select id="reportType" name="reportType">
+                        <option value="broken-sidewalk">Broken sidewalk / curb ramp</option>
+                        <option value="blocked-access">Blocked access</option>
+                        <option value="faulty-elevator">Faulty public elevator / lift</option>
+                        <option value="missing-ramp">Missing ramp</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <label for="reportDetails">Details:</label>
+                    <textarea id="reportDetails" name="reportDetails" rows="3" placeholder="Please provide a brief description..."></textarea>
+                    
+                    <button type="submit" class="form-submit-btn">Submit Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 

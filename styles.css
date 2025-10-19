@@ -1406,6 +1406,10 @@
 }
 
 /* Dashboard */
+/* --- Assuming you have base styles and variables here --- */
+/* :root { ... --cyan: #00d4ff; --teal: ... } */
+
+/* --- Dashboard Styles (From before) --- */
 #dashboard {
     padding: 2rem 5%;
 }
@@ -1429,6 +1433,7 @@
     margin: 0 auto;
 }
 
+/* --- Flip Card Styles (From before) --- */
 .flip-card {
   background-color: transparent;
   min-height: 400px;
@@ -1462,11 +1467,8 @@
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  
-  /* --- HERE ARE THE FIXES --- */
-  background: var(--glass-bg);  /* 1. Restored your original glass background */
-  color: #eee;                 /* 2. Added a default light text color */
-  
+  background: var(--glass-bg);
+  color: #eee;
   backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
@@ -1549,7 +1551,7 @@
   font-size: 1rem;
 }
 
-.flip-card-back a {
+.flip-card-back a, .modal-link {
   color: #5d9eff;
   text-decoration: none;
   margin-top: 15px;
@@ -1557,6 +1559,161 @@
   font-size: 1rem;
 }
 
-.flip-card-back a:hover {
+.flip-card-back a:hover, .modal-link:hover {
   text-decoration: underline;
+}
+
+/* --- Main Info Popup Modal Styles (From before) --- */
+.modal-overlay {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Hide modals by default (JS will show them) */
+#popupModal, #reportModal {
+    display: none;
+}
+
+.modal-content {
+  background: var(--glass-bg, rgba(30, 30, 47, 0.9));
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  color: #eee;
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: #eee;
+  font-size: 2.5rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--cyan, #00d4ff);
+}
+
+#modalTitle, #reportModalTitle {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--cyan, #00d4ff);
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+#modalBody h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--teal, #00d4ff);
+  margin-top: 0;
+}
+
+#modalBody p, #modalBody li {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+#modalBody ul {
+    list-style-position: inside;
+    padding-left: 10px;
+}
+
+
+/* *************************************************
+  * NEW STYLES for Map Page & Report Modal
+  *************************************************
+*/
+
+/* --- Map View Page Styles --- */
+.map-container-full {
+    width: 100%;
+    /* Full height minus the nav (assuming nav is ~70px) */
+    height: calc(100vh - 70px); 
+}
+
+#mainMap {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+}
+
+/* --- Report Modal Form Styles --- */
+#reportMap {
+    height: 250px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background: #333;
+}
+
+#reportForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#reportForm label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+#reportForm select,
+#reportForm textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: #eee;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+}
+
+#reportForm textarea {
+    resize: vertical;
+}
+
+.form-submit-btn {
+    padding: 0.75rem 1rem;
+    background: var(--cyan);
+    color: #111;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form-submit-btn:hover {
+    background: #fff;
+    box-shadow: 0 0 20px var(--cyan);
 }
