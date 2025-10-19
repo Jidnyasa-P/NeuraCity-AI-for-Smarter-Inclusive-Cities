@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - NeuraCity</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">NeuraCity</div>
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="map-view.html">Map View</a></li>
+            <li><a href="analytics.html" class="active">Analytics</a></li>
+        </ul>
+    </nav>
+
+    <!-- Analytics Page -->
+    <div id="analytics" class="page active">
+        <div class="analytics-header">
+            <h2>City Analytics</h2>
+        </div>
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Inclusion Metrics Timeline</h3>
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>City Performance</h3>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>Demographics Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>Trends Overview</h3>
+                <div class="chart-container">
+                    <canvas id="areaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chat-toggle" onclick="toggleChat()">💬</button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-title">
+                    <h4>Neura - AI Assistant</h4>
+                    <div class="chat-subtitle">Online</div>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    Hi! I'm Neura, your AI city assistant. Ask me anything about our city metrics, traffic, air quality, or accessibility!
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <button class="voice-btn" onclick="voiceInput()">🎤</button>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleChatEnter(event)">
+                <button class="send-btn" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+
+    <!-- Initialize Charts on Page Load -->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            if (typeof initCharts === 'function') {
+                initCharts();
+            }
+        });
+    </script>
+</body>
+</html>

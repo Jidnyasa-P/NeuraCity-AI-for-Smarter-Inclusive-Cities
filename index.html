@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuraCity - AI-Powered City Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">NeuraCity</div>
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="map-view.html">Map View</a></li>
+            <li><a href="analytics.html">Analytics</a></li>
+        </ul>
+    </nav>
+
+    <!-- Landing Page -->
+    <div id="landing" class="page active">
+        <div class="city-skyline">
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+            <div class="building"></div>
+        </div>
+        <div class="landing-content">
+            <h1 class="landing-title">NeuraCity</h1>
+            <p class="tagline">AI for Smarter, Inclusive Cities</p>
+            <a href="dashboard.html"><button class="cta-button">Explore NeuraCity</button></a>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chat-toggle" onclick="toggleChat()">💬</button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-title">
+                    <h4>Neura - AI Assistant</h4>
+                    <div class="chat-subtitle">Online</div>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    Hi! I'm Neura, your AI city assistant. Ask me anything about our city metrics, traffic, air quality, or accessibility!
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <button class="voice-btn" onclick="voiceInput()">🎤</button>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleChatEnter(event)">
+                <button class="send-btn" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
