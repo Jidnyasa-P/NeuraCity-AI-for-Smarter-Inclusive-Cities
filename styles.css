@@ -1562,6 +1562,7 @@
 .flip-card-back a:hover, .modal-link:hover {
   text-decoration: underline;
 }
+<<<<<<< HEAD
 
 /* --- Main Info Popup Modal Styles (From before) --- */
 .modal-overlay {
@@ -1717,3 +1718,36 @@
     background: #fff;
     box-shadow: 0 0 20px var(--cyan);
 }
+=======
+/* ========== Export Controls ========== */
+.export-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.8rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.export-controls label {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.export-controls input[type="date"] {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: border-color 0.3s;
+}
+.export-controls input[type="date"]:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 8px rgba(32,227,178,0.4);
+}
+
+/* Reuse btn-small & btn-primary for export buttons */
+>>>>>>> eccb0c48a254f3bc70804b55cfb5351bc4ff8802
