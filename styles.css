@@ -184,99 +184,6 @@
             box-shadow: 0 0 50px rgba(0, 212, 255, 0.8);
         }
 
-        /* Dashboard */
-        #dashboard {
-            padding: 2rem 5%;
-        }
-
-        .dashboard-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .dashboard-header h2 {
-            font-size: 2.5rem;
-            color: var(--cyan);
-            margin-bottom: 0.5rem;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .metric-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, var(--cyan), var(--teal));
-            border-radius: 20px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-        }
-
-        .metric-card:hover::before {
-            opacity: 0.3;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
-        }
-
-        .metric-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: iconFloat 3s infinite ease-in-out;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .metric-value {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--cyan);
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .metric-label {
-            font-size: 1.2rem;
-            margin: 0.5rem 0;
-            font-weight: 600;
-        }
-
-        .metric-status {
-            color: var(--teal);
-            font-size: 0.9rem;
-        }
-
-        .metric-trend {
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            opacity: 0.8;
-        }
-
         /* Map View */
         #map-view {
             padding: 2rem 5%;
@@ -1496,4 +1403,160 @@
         padding: 0.8rem 1.5rem;
         font-size: 0.95rem;
     }
+}
+
+/* Dashboard */
+#dashboard {
+    padding: 2rem 5%;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.dashboard-header h2 {
+    font-size: 2.5rem;
+    color: var(--cyan);
+    margin-bottom: 0.5rem;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.flip-card {
+  background-color: transparent;
+  min-height: 400px;
+  perspective: 1000px;
+  font-family: 'Inter', sans-serif;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 20px;
+}
+
+.flip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  
+  /* --- HERE ARE THE FIXES --- */
+  background: var(--glass-bg);  /* 1. Restored your original glass background */
+  color: #eee;                 /* 2. Added a default light text color */
+  
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.flip-card-front::before,
+.flip-card-back::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  background: linear-gradient(135deg, var(--cyan), var(--teal));
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+
+.flip-card:hover .flip-card-front::before,
+.flip-card:hover .flip-card-back::before {
+  opacity: 0.3;
+}
+
+.flip-card-front {
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.metric-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: iconFloat 3s infinite ease-in-out;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.metric-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+}
+
+.metric-label {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  font-weight: 600;
+}
+
+.metric-status {
+  color: var(--teal);
+  font-size: 1rem;
+}
+
+.metric-trend {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.flip-card-back h3 {
+  font-family: 'Orbitron', sans-serif;
+  margin-top: 0;
+  color: #eee;
+  font-size: 1.5rem;
+}
+
+.flip-card-back p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.flip-card-back a {
+  color: #5d9eff;
+  text-decoration: none;
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.flip-card-back a:hover {
+  text-decoration: underline;
 }
