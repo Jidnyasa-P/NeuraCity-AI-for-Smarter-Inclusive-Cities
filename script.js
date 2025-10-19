@@ -343,3 +343,250 @@
             }
         }
     
+       // ========== GUIDED TOUR FUNCTIONALITY ==========
+
+let currentTourStep = 1;
+const totalTourSteps = 5;
+
+// Start Tour
+function startTour() {
+    currentTourStep = 1;
+    document.getElementById('tourOverlay').classList.add('active');
+    updateTourStep();
+}
+
+// Skip Tour
+function skipTour() {
+    document.getElementById('tourOverlay').classList.remove('active');
+    localStorage.setItem('neuracityTourCompleted', 'true');
+}
+
+// Complete Tour
+function completeTour() {
+    document.getElementById('tourOverlay').classList.remove('active');
+    localStorage.setItem('neuracityTourCompleted', 'true');
+    
+    // Show welcome message in chatbot
+    setTimeout(() => {
+        if (document.getElementById('chatMessages')) {
+            const welcomeMsg = document.createElement('div');
+            welcomeMsg.className = 'message bot';
+            welcomeMsg.textContent = "Welcome to NeuraCity! I'm here if you need any help. 😊";
+            document.getElementById('chatMessages').appendChild(welcomeMsg);
+        }
+    }, 500);
+}
+
+// Next Tour Step
+function nextTourStep() {
+    if (currentTourStep < totalTourSteps) {
+        currentTourStep++;
+        updateTourStep();
+    }
+}
+
+// Previous Tour Step
+function prevTourStep() {
+    if (currentTourStep > 1) {
+        currentTourStep--;
+        updateTourStep();
+    }
+}
+
+// Update Tour Display
+function updateTourStep() {
+    // Hide all steps
+    document.querySelectorAll('.tour-step').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    // Show current step
+    const currentStep = document.querySelector(`.tour-step[data-step="${currentTourStep}"]`);
+    if (currentStep) {
+        currentStep.classList.add('active');
+    }
+    
+    // Update progress dots
+    document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+        if (index + 1 === currentTourStep) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+    
+    // Add click handlers to progress dots
+    document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+        dot.onclick = () => {
+            currentTourStep = index + 1;
+            updateTourStep();
+        };
+    });
+}
+
+// Auto-start tour on first visit
+window.addEventListener('DOMContentLoaded', () => {
+    const tourCompleted = localStorage.getItem('neuracityTourCompleted');
+    if (!tourCompleted) {
+        setTimeout(() => {
+            startTour();
+        }, 1000); // Start tour after 1 second
+    }
+});
+
+// Allow ESC key to close tour
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('tourOverlay').classList.contains('active')) {
+        skipTour();
+    }
+});
+ 
+
+// ========== COMMUNITY PAGE FUNCTIONALITY ==========
+
+// Initialize Events Calendar
+const events = [
+    { day: "20", month: "Oct", name: "Community Tech Festival", location: "Cultural Quarter" },
+    { day: "23", month: "Oct", name: "City Clean-Up Drive", location: "Downtown Core" },
+    { day: "26", month: "Oct", name: "AI & Smart Cities Meetup", location: "Tech District" },
+    { day: "29", month: "Oct", name: "Emergency Response Drill", location: "All Zones" },
+    { day: "01", month: "Nov", name: "Accessibility Workshop", location: "Community Center" }
+];
+
+function loadEvents() {
+    const calendar = document.getElementById('eventsCalendar');
+    if (!calendar) return;
+
+    calendar.innerHTML = '';
+    events.forEach(event => {
+        const eventDiv = document.createElement('div');
+        eventDiv.className = 'event-item';
+        eventDiv.innerHTML = `
+            <div class="event-date">
+                <span class="day">${event.day}</span>
+                <span class="month">${event.month}</span>
+            </div>
+            <div class="event-details">
+                <strong>${event.name}</strong>
+                <div class="event-location">📍 ${event.location}</div>
+            </div>
+        `;
+        calendar.appendChild(eventDiv);
+    });
+}
+
+// Community Poll
+let pollVotes = JSON.parse(localStorage.getItem('neuracityPollVotes')) || [25, 38, 42, 19];
+let hasVoted = localStorage.getItem('neuracityHasVoted') === 'true';
+
+function updatePollDisplay() {
+    const total = pollVotes.reduce((a, b) => a + b, 0);
+
+    pollVotes.forEach((votes, index) => {
+        const percentage = total > 0 ? Math.round((votes / total) * 100) : 0;
+        const bar = document.getElementById(`pollBar${index}`);
+        const percent = document.getElementById(`pollPercent${index}`);
+
+        if (bar) bar.style.width = percentage + '%';
+        if (percent) percent.textContent = percentage + '%';
+    });
+
+    const voteCount = document.getElementById('pollVoteCount');
+    if (voteCount) voteCount.textContent = total + ' votes';
+}
+
+// Revote function - allows user to vote again
+function revotePoll() {
+    localStorage.removeItem('neuracityHasVoted');
+    hasVoted = false;
+
+    const pollForm = document.getElementById('communityPollForm');
+    const pollThanks = document.getElementById('pollThanks');
+
+    if (pollForm) {
+        pollForm.style.display = 'flex';
+        pollForm.reset();
+    }
+    if (pollThanks) {
+        pollThanks.classList.add('hidden');
+    }
+}
+
+const pollForm = document.getElementById('communityPollForm');
+if (pollForm) {
+    updatePollDisplay();
+
+    if (hasVoted) {
+        pollForm.style.display = 'none';
+        document.getElementById('pollThanks').classList.remove('hidden');
+    }
+
+    pollForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const selectedOption = pollForm.querySelector('input[name="poll"]:checked');
+        if (!selectedOption) {
+            alert('Please select an option before voting!');
+            return;
+        }
+
+        const options = ['green', 'transit', 'accessibility', 'emergency'];
+        const index = options.indexOf(selectedOption.value);
+
+        if (index !== -1) {
+            pollVotes[index]++;
+            localStorage.setItem('neuracityPollVotes', JSON.stringify(pollVotes));
+            localStorage.setItem('neuracityHasVoted', 'true');
+            hasVoted = true;
+
+            updatePollDisplay();
+            pollForm.style.display = 'none';
+            document.getElementById('pollThanks').classList.remove('hidden');
+        }
+    });
+}
+
+// Feedback Form
+const feedbackForm = document.getElementById('feedbackForm');
+const feedbackSuccess = document.getElementById('feedbackSuccess');
+
+// Resubmit function - allows user to submit another feedback
+function resubmitFeedback() {
+    if (feedbackForm) {
+        feedbackForm.style.display = 'flex';
+        feedbackForm.reset();
+    }
+    if (feedbackSuccess) {
+        feedbackSuccess.classList.add('hidden');
+    }
+}
+
+if (feedbackForm) {
+    feedbackForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('feedbackName').value;
+        const email = document.getElementById('feedbackEmail').value;
+        const category = document.getElementById('feedbackCategory').value;
+        const message = document.getElementById('feedbackMessage').value;
+
+        // Simulate submission (in real app, send to server)
+        console.log('Feedback submitted:', { name, email, category, message });
+
+        feedbackForm.style.display = 'none';
+        feedbackSuccess.classList.remove('hidden');
+    });
+}
+
+// Add Event Prompt
+function addEventPrompt() {
+    const eventName = prompt('Enter event name:');
+    if (eventName) {
+        alert(`Event "${eventName}" submission received! Our team will review and add it to the calendar.`);
+    }
+}
+
+// Load events on page load
+if (document.getElementById('eventsCalendar')) {
+    loadEvents();
+}

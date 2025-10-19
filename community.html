@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - NeuraCity</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">NeuraCity</div>
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="map-view.html">Map View</a></li>
+            <li><a href="analytics.html">Analytics</a></li>
+            <li><a href="community.html" class="active">Community</a></li>
+        </ul>
+    </nav>
+
+    <!-- Community Page -->
+    <div id="community" class="page active">
+        <div class="community-header">
+            <h2>🤝 Community Hub</h2>
+            <p class="page-subtitle">Connect, engage, and shape the future of NeuraCity together</p>
+        </div>
+
+        <div class="community-container">
+
+            <!-- City Alerts Section -->
+            <div class="community-card alerts-card">
+                <div class="card-header">
+                    <h3>🚨 City Alerts</h3>
+                    <span class="alert-badge">3 Active</span>
+                </div>
+                <div class="alerts-list" id="alertsList">
+                    <div class="alert-item alert-warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <strong>Flood Warning</strong>
+                            <p>Possible flooding in Industrial South. Stay updated and follow evacuation routes.</p>
+                            <span class="alert-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-info">
+                        <div class="alert-icon">🎉</div>
+                        <div class="alert-content">
+                            <strong>Community Festival</strong>
+                            <p>Cultural Quarter hosts annual tech festival this Sunday! Free entry for all.</p>
+                            <span class="alert-time">5 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-success">
+                        <div class="alert-icon">⚡</div>
+                        <div class="alert-content">
+                            <strong>Power Restored</strong>
+                            <p>Tech District power fully restored. All systems operating normally.</p>
+                            <span class="alert-time">1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Poll -->
+            <div class="community-card poll-card">
+                <div class="card-header">
+                    <h3>📊 Community Poll</h3>
+                    <span class="poll-badge" id="pollVoteCount">124 votes</span>
+                </div>
+                <p class="poll-question">Which initiative should the city prioritize next?</p>
+                <form id="communityPollForm" class="poll-form">
+                    <label class="poll-option">
+                        <input type="radio" name="poll" value="green">
+                        <span class="option-text">🌳 Increase green spaces & parks</span>
+                        <div class="poll-bar-container">
+                            <div class="poll-bar" id="pollBar0" style="width: 0%"></div>
+                            <span class="poll-percentage" id="pollPercent0">0%</span>
+                        </div>
+                    </label>
+                    <label class="poll-option">
+                        <input type="radio" name="poll" value="transit">
+                        <span class="option-text">🚇 Launch AI-powered transit system</span>
+                        <div class="poll-bar-container">
+                            <div class="poll-bar" id="pollBar1" style="width: 0%"></div>
+                            <span class="poll-percentage" id="pollPercent1">0%</span>
+                        </div>
+                    </label>
+                    <label class="poll-option">
+                        <input type="radio" name="poll" value="accessibility">
+                        <span class="option-text">♿ Expand accessibility features</span>
+                        <div class="poll-bar-container">
+                            <div class="poll-bar" id="pollBar2" style="width: 0%"></div>
+                            <span class="poll-percentage" id="pollPercent2">0%</span>
+                        </div>
+                    </label>
+                    <label class="poll-option">
+                        <input type="radio" name="poll" value="emergency">
+                        <span class="option-text">🚑 Improve emergency response time</span>
+                        <div class="poll-bar-container">
+                            <div class="poll-bar" id="pollBar3" style="width: 0%"></div>
+                            <span class="poll-percentage" id="pollPercent3">0%</span>
+                        </div>
+                    </label>
+                    <button type="submit" class="btn-primary btn-vote">
+                        <span class="btn-icon">🗳️</span>
+                        <span>Cast Your Vote</span>
+                    </button>
+                </form>
+                <div id="pollThanks" class="poll-thanks hidden">
+                    <div class="thanks-icon">✓</div>
+                    <p>Thank you for voting!</p>
+                    <button class="btn-secondary btn-revote" onclick="revotePoll()">Vote Again</button>
+                </div>
+            </div>
+
+            <!-- Events Calendar -->
+            <div class="community-card events-card">
+                <div class="card-header">
+                    <h3>🗓️ Upcoming Events</h3>
+                    <button class="btn-small" onclick="addEventPrompt()">+ Add Event</button>
+                </div>
+                <div class="events-calendar" id="eventsCalendar">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Feedback Form -->
+            <div class="community-card feedback-card">
+                <div class="card-header">
+                    <h3>💡 Share Your Ideas</h3>
+                </div>
+                <p class="card-description">Help us improve NeuraCity with your suggestions and feedback</p>
+                <form id="feedbackForm" class="feedback-form">
+                    <div class="form-group">
+                        <label for="feedbackName">Name</label>
+                        <input type="text" id="feedbackName" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackEmail">Email</label>
+                        <input type="email" id="feedbackEmail" name="email" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackCategory">Category</label>
+                        <select id="feedbackCategory" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="bug">🐛 Bug Report</option>
+                            <option value="feature">✨ Feature Request</option>
+                            <option value="improvement">📈 Improvement</option>
+                            <option value="other">💬 General Feedback</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackMessage">Your Feedback</label>
+                        <textarea id="feedbackMessage" name="message" rows="4" placeholder="Share your thoughts..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary btn-submit">
+                        <span class="btn-icon">📤</span>
+                        <span>Submit Feedback</span>
+                    </button>
+                </form>
+                <div id="feedbackSuccess" class="feedback-success hidden">
+                    <div class="success-icon">✓</div>
+                    <p>Thank you! Your feedback has been submitted successfully.</p>
+                    <button class="btn-secondary btn-resubmit" onclick="resubmitFeedback()">Submit Another</button>
+                </div>
+            </div>
+
+            <!-- Discussion Forum Preview -->
+            <div class="community-card forum-card">
+                <div class="card-header">
+                    <h3>💬 Recent Discussions</h3>
+                    <button class="btn-small" onclick="window.location.href='#forum'">View All</button>
+                </div>
+                <div class="forum-topics" id="forumTopics">
+                    <div class="forum-topic">
+                        <div class="topic-avatar">👤</div>
+                        <div class="topic-content">
+                            <strong>Sarah Chen</strong>
+                            <p>What are your thoughts on the new bike lanes in Downtown?</p>
+                            <span class="topic-meta">12 replies • 3 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="forum-topic">
+                        <div class="topic-avatar">👥</div>
+                        <div class="topic-content">
+                            <strong>Mike Johnson</strong>
+                            <p>Accessibility improvements we'd like to see in Tech District</p>
+                            <span class="topic-meta">8 replies • 5 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="forum-topic">
+                        <div class="topic-avatar">🎨</div>
+                        <div class="topic-content">
+                            <strong>Artists Collective</strong>
+                            <p>Proposal for public art installations in Cultural Quarter</p>
+                            <span class="topic-meta">24 replies • 1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="community-card leaderboard-card">
+                <div class="card-header">
+                    <h3>🏆 Top Contributors</h3>
+                </div>
+                <div class="leaderboard-list" id="leaderboardList">
+                    <div class="leaderboard-item">
+                        <span class="rank">1</span>
+                        <span class="contributor-name">Alex Rivera</span>
+                        <span class="contributor-points">1,248 pts</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank">2</span>
+                        <span class="contributor-name">Emma Wilson</span>
+                        <span class="contributor-points">987 pts</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank">3</span>
+                        <span class="contributor-name">James Park</span>
+                        <span class="contributor-points">856 pts</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank">4</span>
+                        <span class="contributor-name">Sophia Kumar</span>
+                        <span class="contributor-points">742 pts</span>
+                    </div>
+                    <div class="leaderboard-item">
+                        <span class="rank">5</span>
+                        <span class="contributor-name">David Lee</span>
+                        <span class="contributor-points">698 pts</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chat-toggle" onclick="toggleChat()">🤖</button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-title">
+                    <h4>Neura - AI Assistant</h4>
+                    <div class="chat-subtitle">Online</div>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    Hi! I'm Neura, your AI city assistant. Ask me anything about our city metrics, traffic, air quality, or accessibility!
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <button class="voice-btn" onclick="voiceInput()">🎤</button>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="handleChatEnter(event)">
+                <button class="send-btn" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

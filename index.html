@@ -24,6 +24,7 @@
             <li><a href="dashboard.html">Dashboard</a></li>
             <li><a href="map-view.html">Map View</a></li>
             <li><a href="analytics.html">Analytics</a></li>
+            <li><a href="community.html">Community</a></li>
         </ul>
     </nav>
 
@@ -42,13 +43,15 @@
         <div class="landing-content">
             <h1 class="landing-title">NeuraCity</h1>
             <p class="tagline">AI for Smarter, Inclusive Cities</p>
-            <a href="dashboard.html"><button class="cta-button">Explore NeuraCity</button></a>
+            <a href="dashboard.html"><button class="cta-button">🏙️ Explore NeuraCity</button></a>
+            <a><button onclick="startTour()" title="Start guided tour" class="cta-button">🎯Start Tour
+            </button> </a>
         </div>
     </div>
 
     <!-- Chatbot -->
     <div class="chatbot-container">
-        <button class="chat-toggle" onclick="toggleChat()">💬</button>
+        <button class="chat-toggle" onclick="toggleChat()">🤖</button>
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
                 <div class="chat-avatar">🤖</div>
@@ -69,6 +72,84 @@
             </div>
         </div>
     </div>
+
+       <!-- Guided Tour Overlay -->
+    <div id="tourOverlay" class="tour-overlay">
+        <div class="tour-modal">
+            <button class="tour-skip" onclick="skipTour()">✕ Skip Tour</button>
+            
+            <div class="tour-avatar">
+                <svg class="neura-avatar" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="avatarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#20E3B2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="45" fill="url(#avatarGradient)" class="avatar-glow"/>
+                    <circle cx="35" cy="42" r="4" fill="#0A0F1F" class="avatar-eye-left"/>
+                    <circle cx="65" cy="42" r="4" fill="#0A0F1F" class="avatar-eye-right"/>
+                    <path d="M 32 60 Q 50 70 68 60" stroke="#0A0F1F" stroke-width="3" fill="none" class="avatar-smile"/>
+                </svg>
+            </div>
+            
+            <div class="tour-content">
+                <div class="tour-step active" data-step="1">
+                    <h2>👋 Welcome to NeuraCity!</h2>
+                    <p>Hi! I'm Neura, your AI assistant. Let me show you around this futuristic smart city dashboard!</p>
+                    <div class="tour-actions">
+                        <button class="tour-btn-primary" onclick="nextTourStep()">Start Tour</button>
+                    </div>
+                </div>
+                
+                <div class="tour-step" data-step="2">
+                    <h2>📊 Dashboard Overview</h2>
+                    <p>Monitor real-time city metrics including Air Quality, Accessibility Score, Traffic Density, and Safety Index—all updated live!</p>
+                    <div class="tour-actions">
+                        <button class="tour-btn-secondary" onclick="prevTourStep()">Back</button>
+                        <button class="tour-btn-primary" onclick="nextTourStep()">Next</button>
+                    </div>
+                </div>
+                
+                <div class="tour-step" data-step="3">
+                    <h2>🗺️ Interactive Maps</h2>
+                    <p>Explore color-coded city zones with filters for different metrics. Click any zone to see detailed information!</p>
+                    <div class="tour-actions">
+                        <button class="tour-btn-secondary" onclick="prevTourStep()">Back</button>
+                        <button class="tour-btn-primary" onclick="nextTourStep()">Next</button>
+                    </div>
+                </div>
+                
+                <div class="tour-step" data-step="4">
+                    <h2>📈 Analytics & Insights</h2>
+                    <p>View comprehensive charts showing inclusion metrics, city performance, demographics, and growth trends.</p>
+                    <div class="tour-actions">
+                        <button class="tour-btn-secondary" onclick="prevTourStep()">Back</button>
+                        <button class="tour-btn-primary" onclick="nextTourStep()">Next</button>
+                    </div>
+                </div>
+                
+                <div class="tour-step" data-step="5">
+                    <h2>💬 Chat With Me!</h2>
+                    <p>Need help? Click the chat button anytime to ask me questions about air quality, traffic, accessibility, or safety!</p>
+                    <div class="tour-actions">
+                        <button class="tour-btn-secondary" onclick="prevTourStep()">Back</button>
+                        <button class="tour-btn-primary" onclick="completeTour()">Let's Explore! 🚀</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tour-progress">
+                <div class="progress-dot" data-step="1"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-dot" data-step="3"></div>
+                <div class="progress-dot" data-step="4"></div>
+                <div class="progress-dot" data-step="5"></div>
+            </div>
+        </div>
+    </div>
+
+ 
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
