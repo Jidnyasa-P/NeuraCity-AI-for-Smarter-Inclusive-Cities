@@ -1560,3 +1560,34 @@
 .flip-card-back a:hover {
   text-decoration: underline;
 }
+/* ========== Export Controls ========== */
+.export-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.8rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.export-controls label {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.export-controls input[type="date"] {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: border-color 0.3s;
+}
+.export-controls input[type="date"]:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 8px rgba(32,227,178,0.4);
+}
+
+/* Reuse btn-small & btn-primary for export buttons */

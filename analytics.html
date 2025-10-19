@@ -32,7 +32,28 @@
     <div id="analytics" class="page active">
         <div class="analytics-header">
             <h2>City Analytics</h2>
+            <p class="page-subtitle">Comprehensive insights and trends</p>
         </div>
+        
+
+          <!-- Date Range & Export Controls -->
+  <div class="export-controls">
+    <label>
+      From:&nbsp;
+      <input type="date" id="exportFrom" />
+    </label>
+    <label>
+      To:&nbsp;
+      <input type="date" id="exportTo" />
+    </label>
+    <button id="exportCsvBtn" class="btn-primary btn-small">
+      📑 Export CSV
+    </button>
+    <button id="exportPdfBtn" class="btn-primary btn-small">
+      📄 Export PDF
+    </button>
+  </div>
+
         <div class="charts-grid">
             <div class="chart-card">
                 <h3>Inclusion Metrics Timeline</h3>
@@ -66,7 +87,7 @@
 
     <!-- Chatbot -->
     <div class="chatbot-container">
-        <button class="chat-toggle" onclick="toggleChat()">💬</button>
+        <button class="chat-toggle" onclick="toggleChat()">🤖</button>
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
                 <div class="chat-avatar">🤖</div>

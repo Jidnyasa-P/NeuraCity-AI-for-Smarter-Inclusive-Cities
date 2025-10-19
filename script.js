@@ -590,3 +590,81 @@ function addEventPrompt() {
 if (document.getElementById('eventsCalendar')) {
     loadEvents();
 }
+// ========== EXPORT REPORTS FUNCTIONALITY ==========
+
+// Utility: format date to YYYY-MM-DD
+function formatDate(d) {
+  const dt = new Date(d);
+  return dt.toISOString().slice(0,10);
+}
+
+// Fetch analytics data from charts
+function getAnalyticsData() {
+  // Example: lineChart data
+  const line = Chart.getChart('lineChart');
+  const labels = line.data.labels;
+  const datasets = line.data.datasets.map(ds => ({
+    label: ds.label,
+    data: ds.data
+  }));
+  return { labels, datasets };
+}
+
+// Export as CSV
+document.getElementById('exportCsvBtn').onclick = () => {
+  const { labels, datasets } = getAnalyticsData();
+  const from = document.getElementById('exportFrom').value;
+  const to = document.getElementById('exportTo').value;
+  let csv = 'Date,' + datasets.map(ds => ds.label).join(',') + '\\n';
+  labels.forEach((lbl, i) => {
+    const dateOK = (!from || lbl >= from) && (!to || lbl <= to);
+    if (!dateOK) return;
+    csv += lbl + ',' + datasets.map(ds => ds.data[i]).join(',') + '\\n';
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `NeuraCity_Analytics_${from || 'start'}_to_${to || 'end'}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+// Export as PDF (requires jsPDF CDN)
+const jsPdfScript = document.createElement('script');
+jsPdfScript.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';
+document.head.appendChild(jsPdfScript);
+
+jsPdfScript.onload = () => {
+  document.getElementById('exportPdfBtn').onclick = () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'landscape' });
+    const { labels, datasets } = getAnalyticsData();
+    const from = document.getElementById('exportFrom').value;
+    const to = document.getElementById('exportTo').value;
+    doc.setFontSize(16);
+    doc.text('NeuraCity Analytics Report', 14, 20);
+    doc.setFontSize(10);
+    doc.text(`Date Range: ${from || 'Start'} to ${to || 'End'}`, 14, 28);
+
+    // Prepare table: header and rows
+    const headers = ['Date', ...datasets.map(ds => ds.label)];
+    const rows = [];
+    labels.forEach((lbl, i) => {
+      const dateOK = (!from || lbl >= from) && (!to || lbl <= to);
+      if (!dateOK) return;
+      rows.push([lbl, ...datasets.map(ds => ds.data[i].toString())]);
+    });
+
+    // AutoTable plugin
+    doc.autoTable({
+      startY: 35,
+      head: [headers],
+      body: rows,
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [0, 212, 255], textColor: 20 },
+    });
+
+    doc.save(`NeuraCity_Report_${from || 'start'}_to_${to || 'end'}.pdf`);
+  };
+};
