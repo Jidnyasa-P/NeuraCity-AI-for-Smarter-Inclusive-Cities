@@ -1,4 +1,4 @@
-# NeuraCity Enhanced Homepage
+# NeuraCity 
 
 ## 🎉 New Features Added
 
