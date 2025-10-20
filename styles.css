@@ -1743,3 +1743,8 @@ body.light-mode #moon-icon {
     opacity: 0;
     transform: translate(-50%, 200px) scale(0.5);
 }
+
+.blank {
+    height: 4rem;
+    width: 100%;
+}
