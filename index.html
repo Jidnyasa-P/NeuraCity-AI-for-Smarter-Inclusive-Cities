@@ -39,6 +39,39 @@
                 </div>
             </label>
         </div>
+        <li class="nav-achievements">
+  <button id="achievementsToggle" onclick="toggleAchievementsDropdown()" class="btn-achievements">
+    🏅 Achievements <span id="pointsNavDisplay" class="points-nav-label">0 pts</span> ▼
+  </button>
+  <div id="achievementsDropdown" class="achievements-dropdown hidden">
+    <div class="achievement-item">
+      <div class="medal">🥇</div>
+      <div>
+        <strong>Gold Contributor</strong>
+        <p>Earn 100 points</p>
+        <button onclick="claimReward('Gold Contributor')" class="claim-btn" id="claimGoldBtn" disabled>Claim</button>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="medal">🥈</div>
+      <div>
+        <strong>Silver Helper</strong>
+        <p>Earn 60 points</p>
+        <button onclick="claimReward('Silver Helper')" class="claim-btn" id="claimSilverBtn" disabled>Claim</button>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="medal">🥉</div>
+      <div>
+        <strong>Bronze Participant</strong>
+        <p>Earn 30 points</p>
+        <button onclick="claimReward('Bronze Participant')" class="claim-btn" id="claimBronzeBtn" disabled>Claim</button>
+      </div>
+    </div>
+    <div class="claim-status" id="claimStatus"></div>
+  </div>
+</li>
+
     </nav>
 
     <!-- Landing Page -->

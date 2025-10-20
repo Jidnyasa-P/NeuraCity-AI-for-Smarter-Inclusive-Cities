@@ -1150,3 +1150,54 @@ function updateTimestamp() {
 
 setInterval(updateTimestamp, 60000); // Update every minute
 updateTimestamp();
+let userPoints = 75; // Example current points, dynamically update this from your backend or app state
+let claimedRewards = {
+  "Gold Contributor": false,
+  "Silver Helper": false,
+  "Bronze Participant": false,
+};
+
+function toggleAchievementsDropdown() {
+  const dropdown = document.getElementById('achievementsDropdown');
+  dropdown.classList.toggle('hidden');
+  updateAchievementButtons();
+}
+
+function updateAchievementButtons() {
+  document.getElementById('pointsNavDisplay').textContent = `${userPoints} pts`;
+
+  document.getElementById('claimGoldBtn').disabled = userPoints < 100 || claimedRewards["Gold Contributor"];
+  document.getElementById('claimSilverBtn').disabled = userPoints < 60 || claimedRewards["Silver Helper"];
+  document.getElementById('claimBronzeBtn').disabled = userPoints < 30 || claimedRewards["Bronze Participant"];
+}
+
+function claimReward(rewardName) {
+  if (claimedRewards[rewardName]) {
+    showClaimStatus(`You already claimed the ${rewardName} reward.`);
+    return;
+  }
+  if ((rewardName === "Gold Contributor" && userPoints < 100) ||
+      (rewardName === "Silver Helper" && userPoints < 60) ||
+      (rewardName === "Bronze Participant" && userPoints < 30)) {
+    showClaimStatus(`Not enough points to claim ${rewardName}.`);
+    return;
+  }
+
+  claimedRewards[rewardName] = true;
+  showClaimStatus(`Congrats! You claimed ${rewardName}.`);
+
+  updateAchievementButtons();
+}
+
+function showClaimStatus(message) {
+  const status = document.getElementById('claimStatus');
+  status.textContent = message;
+  setTimeout(() => {
+    status.textContent = '';
+  }, 4000);
+}
+
+// Initialize achievement buttons on page load
+document.addEventListener('DOMContentLoaded', () => {
+  updateAchievementButtons();
+});

@@ -47,6 +47,101 @@ nav {
     align-items: center;
     z-index: 1000;
 }
+/* Achievements section in navbar */
+.nav-achievements {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.btn-achievements {
+  background: #101624;          /* Matches website/nav background */
+  color: #fff;                  /* Makes text readable */
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 6px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: none;             /* Optional: remove extra shadow */
+}
+
+.points-nav-label {
+  background: #243452;          /* Slightly lighter navy for contrast */
+  color: #fff;
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.achievements-dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #101624;
+  color: #eaf2fb;
+  border: 1px solid #1a2332;
+  border-radius: 12px;
+  min-width: 250px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  padding: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+/* Popover Arrow */
+.achievements-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  right: 25px;        /* Adjust this value to align under your toggle button */
+  border-width: 0 13px 16px 13px;
+  border-style: solid;
+  border-color: transparent transparent #101624 transparent;
+  width: 0;
+  height: 0;
+  z-index: 1100;
+}
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: none;
+}
+
+.medal {
+  font-size: 2rem;
+}
+
+.claim-btn {
+  margin-top: 0.3rem;
+  background-color: #2e86de;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.claim-btn:disabled {
+  background-color: #243452;
+  color: #ccd6e0;
+  cursor: not-allowed;
+}
+
+.claim-status {
+  font-size: 0.85rem;
+  color: #7fd87f;
+  font-weight: 600;
+  min-height: 20px;
+  text-align: center;
+}
 
 .logo {
     font-size: 1.5rem;
