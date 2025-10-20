@@ -766,3 +766,387 @@ document.addEventListener('DOMContentLoaded', () => {
     // This removes the need for the 'initTheme' function
     // The theme is now set before the map/chart-specific DOMContentLoaded listeners run
 });
+
+// ========== SOUND EFFECTS SYSTEM ==========
+
+// Sound state management
+let soundEnabled = localStorage.getItem('neuracitySoundEnabled') !== 'false'; // Default ON
+
+// Sound effects cache
+const sounds = {
+    click: null,
+    hover: null,
+    dataLoad: null,
+    chatOpen: null,
+    chatMessage: null,
+    chatSend: null
+};
+
+// Initialize sound system
+function initSoundSystem() {
+    // Load audio elements
+    sounds.click = document.getElementById('soundClick');
+    sounds.hover = document.getElementById('soundHover');
+    sounds.dataLoad = document.getElementById('soundDataLoad');
+    sounds.chatOpen = document.getElementById('soundChatOpen');
+    sounds.chatMessage = document.getElementById('soundChatMessage');
+    sounds.chatSend = document.getElementById('soundChatSend');
+    
+    // Set initial volumes
+    Object.values(sounds).forEach(sound => {
+        if (sound) sound.volume = 0.3;
+    });
+    
+    // Add sound toggle button
+    addSoundToggleButton();
+    
+    // Add sound to all interactive elements
+    addSoundToElements();
+}
+
+// Play sound function
+function playSound(soundType) {
+    if (!soundEnabled || !sounds[soundType]) return;
+    
+    const sound = sounds[soundType];
+    sound.currentTime = 0; // Reset to start
+    sound.play().catch(err => console.log('Sound play prevented:', err));
+}
+
+// Add sound toggle button to page
+function addSoundToggleButton() {
+    const btn = document.createElement('button');
+    btn.className = 'sound-toggle-btn' + (soundEnabled ? '' : ' muted');
+    btn.innerHTML = soundEnabled ? '🔊' : '🔇';
+    btn.title = soundEnabled ? 'Mute sounds' : 'Unmute sounds';
+    btn.onclick = toggleSound;
+    document.body.appendChild(btn);
+}
+
+// Toggle sound on/off
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem('neuracitySoundEnabled', soundEnabled);
+    
+    const btn = document.querySelector('.sound-toggle-btn');
+    if (btn) {
+        btn.innerHTML = soundEnabled ? '🔊' : '🔇';
+        btn.title = soundEnabled ? 'Mute sounds' : 'Unmute sounds';
+        btn.className = 'sound-toggle-btn' + (soundEnabled ? '' : ' muted');
+    }
+    
+    // Play confirmation sound when enabling
+    if (soundEnabled) {
+        setTimeout(() => playSound('click'), 100);
+    }
+}
+
+// Add sounds to interactive elements
+function addSoundToElements() {
+    
+    // 1. BUTTON CLICKS - All buttons
+    document.querySelectorAll('button, .btn-primary, .btn-secondary, .cta-button, .filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => playSound('click'));
+    });
+    
+    // 2. NAV LINKS
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => playSound('click'));
+    });
+    
+    // 3. CARD HOVERS - Dashboard metrics and community cards
+    document.querySelectorAll('.metric-card, .community-card, .chart-card').forEach(card => {
+        card.addEventListener('mouseenter', () => playSound('hover'));
+    });
+    
+    // 4. DATA LOADS - When charts or metrics update
+    // Trigger on page transitions
+    const originalShowPage = window.showPage;
+    if (typeof originalShowPage === 'function') {
+        window.showPage = function(pageId) {
+            playSound('dataLoad');
+            originalShowPage(pageId);
+        };
+    }
+    
+    // 5. CHATBOT INTERACTIONS
+    const chatToggle = document.querySelector('.chat-toggle');
+    if (chatToggle) {
+        const originalToggleChat = window.toggleChat;
+        window.toggleChat = function() {
+            const chatWindow = document.getElementById('chatWindow');
+            const isOpening = !chatWindow.classList.contains('active');
+            
+            if (isOpening) {
+                playSound('chatOpen');
+            }
+            
+            if (typeof originalToggleChat === 'function') {
+                originalToggleChat();
+            }
+        };
+    }
+    
+    // 6. CHAT MESSAGE SEND
+    const originalSendMessage = window.sendMessage;
+    if (typeof originalSendMessage === 'function') {
+        window.sendMessage = function() {
+            playSound('chatSend');
+            originalSendMessage();
+            
+            // Play message received sound after bot responds
+            setTimeout(() => playSound('chatMessage'), 1000);
+        };
+    }
+    
+    // 7. FORM SUBMISSIONS
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', (e) => {
+            playSound('click');
+        });
+    });
+    
+    // 8. POLL OPTIONS
+    document.querySelectorAll('.poll-option').forEach(option => {
+        option.addEventListener('click', () => playSound('hover'));
+    });
+    
+    // 9. MAP FILTERS
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => playSound('dataLoad'));
+    });
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSoundSystem);
+} else {
+    initSoundSystem();
+}
+
+// Re-attach sounds after dynamic content loads
+function reattachSounds() {
+    addSoundToElements();
+}
+
+// Export for use in other scripts if needed
+window.playSound = playSound;
+window.reattachSounds = reattachSounds;
+
+
+// ========== DASHBOARD DETAIL MODALS ==========
+
+const modalData = {
+    air: {
+        icon: '🌿',
+        title: 'Air Quality Full Report',
+        sections: [
+            {
+                heading: 'Current Air Quality Index (AQI)',
+                stats: [
+                    { value: '78', label: 'Overall AQI', unit: 'Good' },
+                    { value: '12', label: 'PM2.5', unit: 'µg/m³' },
+                    { value: '34', label: 'Ozone (O₃)', unit: 'ppb' },
+                    { value: '8', label: 'PM10', unit: 'µg/m³' }
+                ]
+            },
+            {
+                heading: 'Air Quality Trends',
+                content: `
+                    <p>• Air quality improved by 5% over the last month</p>
+                    <p>• Best air quality recorded in: Residential North (AQI: 88)</p>
+                    <p>• Areas needing attention: Industrial South (AQI: 54)</p>
+                    <p>• Pollution sources: Vehicle emissions (42%), Industrial activity (31%), Construction (18%)</p>
+                `
+            },
+            {
+                heading: 'Health Recommendations',
+                content: `
+                    <p>✅ Outdoor activities are safe for all groups</p>
+                    <p>✅ No respiratory health advisories</p>
+                    <p>🌳 Consider planting more trees in industrial zones</p>
+                `
+            }
+        ]
+    },
+    accessibility: {
+        icon: '♿',
+        title: 'Accessibility Map & Report',
+        sections: [
+            {
+                heading: 'Accessibility Score Breakdown',
+                stats: [
+                    { value: '85%', label: 'Overall Score', unit: 'Excellent' },
+                    { value: '92%', label: 'Public Transport', unit: 'Accessible' },
+                    { value: '4,200', label: 'Curb Ramps', unit: 'Installed' },
+                    { value: '78%', label: 'Buildings', unit: 'Compliant' }
+                ]
+            },
+            {
+                heading: 'Accessible Infrastructure',
+                content: `
+                    <p>• 92% of public buses are wheelchair accessible</p>
+                    <p>• 85% of metro stations have elevators</p>
+                    <p>• 4,200+ curb ramps installed citywide</p>
+                    <p>• Audio crosswalk signals at 320 intersections</p>
+                    <p>• Braille signage in all government buildings</p>
+                `
+            },
+            {
+                heading: 'Recent Improvements',
+                content: `
+                    <p>✅ 12% increase in accessible routes this year</p>
+                    <p>🚇 New accessible metro line to Tech District</p>
+                    <p>♿ 500+ accessible parking spaces added</p>
+                `
+            }
+        ]
+    },
+    traffic: {
+        icon: '🚗',
+        title: 'Live Traffic Report',
+        sections: [
+            {
+                heading: 'Current Traffic Status',
+                stats: [
+                    { value: '62%', label: 'Traffic Density', unit: 'Moderate' },
+                    { value: '28', label: 'Avg Commute', unit: 'minutes' },
+                    { value: '45%', label: 'Public Transit', unit: 'Usage' },
+                    { value: '15', label: 'Congestion', unit: 'km' }
+                ]
+            },
+            {
+                heading: 'Traffic Hotspots',
+                content: `
+                    <p>🔴 High Congestion: Downtown Core (85% density)</p>
+                    <p>🟡 Moderate Congestion: Bridge St (72% density)</p>
+                    <p>🟢 Low Congestion: Residential North (45% density)</p>
+                    <p>• Peak hours: 8-10 AM, 5-7 PM</p>
+                `
+            },
+            {
+                heading: 'AI Recommendations',
+                content: `
+                    <p>🚇 Use metro line for faster commute to downtown</p>
+                    <p>🚴 Bike lanes available on Main St and Park Ave</p>
+                    <p>⏰ Travel before 8 AM or after 10 AM to avoid traffic</p>
+                    <p>📱 Real-time route optimization via NeuraCity app</p>
+                `
+            }
+        ]
+    },
+    safety: {
+        icon: '🛡️',
+        title: 'Safety & Security Report',
+        sections: [
+            {
+                heading: 'Safety Metrics',
+                stats: [
+                    { value: '91%', label: 'Safety Index', unit: 'Very Safe' },
+                    { value: '4', label: 'Response Time', unit: 'minutes' },
+                    { value: '1,500', label: 'Active Patrols', unit: 'Units' },
+                    { value: '5%', label: 'Crime Reduction', unit: 'vs last year' }
+                ]
+            },
+            {
+                heading: 'Safety by Zone',
+                content: `
+                    <p>🟢 Tech District: 95% (Very Safe)</p>
+                    <p>🟢 Cultural Quarter: 92% (Very Safe)</p>
+                    <p>🟢 Downtown Core: 88% (Safe)</p>
+                    <p>🟡 Industrial South: 76% (Moderately Safe)</p>
+                `
+            },
+            {
+                heading: 'Recent Incidents',
+                content: `
+                    <p>• Total incidents this month: 42 (down 15% from last month)</p>
+                    <p>• Emergency response time improved by 8%</p>
+                    <p>• 24/7 AI-powered surveillance in 85% of public areas</p>
+                    <p>• SOS emergency buttons installed at 200+ locations</p>
+                `
+            }
+        ]
+    }
+};
+
+function openDetailModal(type) {
+    const modal = document.getElementById('detailModal');
+    const modalBody = document.getElementById('modalBody');
+    const data = modalData[type];
+    
+    if (!data) return;
+    
+    let html = `
+        <div class="modal-header">
+            <span class="modal-icon">${data.icon}</span>
+            <h2 class="modal-title">${data.title}</h2>
+        </div>
+    `;
+    
+    data.sections.forEach(section => {
+        html += `<div class="modal-section">`;
+        html += `<h4>${section.heading}</h4>`;
+        
+        if (section.stats) {
+            html += `<div class="modal-stat-grid">`;
+            section.stats.forEach(stat => {
+                html += `
+                    <div class="modal-stat">
+                        <div class="modal-stat-value">${stat.value}</div>
+                        <div class="modal-stat-label">${stat.label}</div>
+                        ${stat.unit ? `<div class="modal-stat-label">${stat.unit}</div>` : ''}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+        
+        if (section.content) {
+            html += section.content;
+        }
+        
+        html += `</div>`;
+    });
+    
+    modalBody.innerHTML = html;
+    modal.classList.add('active');
+    
+    // Play sound
+    if (window.playSound) {
+        window.playSound('dataLoad');
+    }
+}
+
+function closeDetailModal() {
+    const modal = document.getElementById('detailModal');
+    modal.classList.remove('active');
+}
+
+// Close modal on outside click
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('detailModal');
+    if (e.target === modal) {
+        closeDetailModal();
+    }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeDetailModal();
+    }
+});
+
+// Update timestamp
+function updateTimestamp() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    const timestampEl = document.getElementById('lastUpdateTime');
+    if (timestampEl) {
+        timestampEl.textContent = timeStr;
+    }
+}
+
+setInterval(updateTimestamp, 60000); // Update every minute
+updateTimestamp();

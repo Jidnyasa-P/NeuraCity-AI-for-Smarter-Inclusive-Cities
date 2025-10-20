@@ -6,12 +6,9 @@
     <title>Dashboard - NeuraCity</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
     <link rel="stylesheet" href="styles.css">
-
-    </head>
+</head>
 <body>
     <nav>
         <div class="logo">NeuraCity</div>
@@ -23,9 +20,6 @@
             <li><a href="analytics.html">Analytics</a></li>
             <li><a href="community.html">Community</a></li>
         </ul>
-
-        <ul class="nav-links">
-            </ul>
         
         <div class="theme-switch-wrapper">
             <label class="theme-switch" for="theme-toggle">
@@ -41,86 +35,151 @@
     <div id="dashboard" class="page active">
         <div class="dashboard-header">
             <h2>City Metrics Dashboard</h2>
+            <p class="dashboard-subtitle">Real-time monitoring • Last updated: <span id="lastUpdateTime">just now</span></p>
+        </div>
+
+        <!-- Quick Stats Summary -->
+        <div class="quick-stats">
+            <div class="stat-item">
+                <span class="stat-icon">📊</span>
+                <div class="stat-info">
+                    <span class="stat-value">4</span>
+                    <span class="stat-label">Active Metrics</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">✅</span>
+                <div class="stat-info">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Above Target</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">🔔</span>
+                <div class="stat-info">
+                    <span class="stat-value">2</span>
+                    <span class="stat-label">Active Alerts</span>
+                </div>
+            </div>
         </div>
 
         <div class="metrics-grid">
             
+            <!-- Air Quality Card -->
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front metric-card">
                         <div class="metric-icon">🌿</div>
-                        <div class="metric-value">78%</div>
+                        <div class="metric-value" id="airQualityValue">78%</div>
                         <div class="metric-label">Air Quality</div>
-                        <div class="metric-status">Good</div>
-                        <div class="metric-trend">↑ +5%</div>
+                        <div class="metric-status status-good">Good</div>
+                        <div class="metric-trend trend-up">↑ +5%</div>
                     </div>
                     <div class="flip-card-back">
                         <h3>Air Quality Details</h3>
                         <p>Particulate Matter (PM2.5): 12 µg/m³</p>
                         <p>Ozone (O₃): 34 ppb</p>
                         <p>Last updated: 2 mins ago</p>
-                        <a href="#">See full report</a>
+                        <a href="#" onclick="openDetailModal('air'); return false;" class="detail-link">📄 See Full Report</a>
                     </div>
                 </div>
             </div>
 
+            <!-- Accessibility Card -->
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front metric-card">
                         <div class="metric-icon">♿</div>
-                        <div class="metric-value">85%</div>
+                        <div class="metric-value" id="accessibilityValue">85%</div>
                         <div class="metric-label">Accessibility Score</div>
-                        <div class="metric-status">Excellent</div>
-                        <div class="metric-trend">↑ +12%</div>
+                        <div class="metric-status status-excellent">Excellent</div>
+                        <div class="metric-trend trend-up">↑ +12%</div>
                     </div>
                     <div class="flip-card-back">
                         <h3>Accessibility Details</h3>
                         <p>92% of public transport is wheelchair accessible.</p>
                         <p>4,200+ curb ramps installed.</p>
-                        <a href="#">View accessibility map</a>
+                        <a href="#" onclick="openDetailModal('accessibility'); return false;" class="detail-link">🗺️ View Accessibility Map</a>
                     </div>
                 </div>
             </div>
 
+            <!-- Traffic Card -->
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front metric-card">
                         <div class="metric-icon">🚗</div>
-                        <div class="metric-value">62%</div>
+                        <div class="metric-value" id="trafficValue">62%</div>
                         <div class="metric-label">Traffic Density</div>
-                        <div class="metric-status">Moderate</div>
-                        <div class="metric-trend">↓ -3%</div>
+                        <div class="metric-status status-moderate">Moderate</div>
+                        <div class="metric-trend trend-down">↓ -3%</div>
                     </div>
                     <div class="flip-card-back">
                         <h3>Traffic Details</h3>
                         <p>Average commute time: 28 mins</p>
                         <p>Hotspots: Downtown, Bridge St.</p>
                         <p>Public transport use: 45%</p>
-                        <a href="#">See live traffic</a>
+                        <a href="#" onclick="openDetailModal('traffic'); return false;" class="detail-link">🚦 See Live Traffic</a>
                     </div>
                 </div>
             </div>
 
+            <!-- Safety Card -->
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front metric-card">
                         <div class="metric-icon">🛡️</div>
-                        <div class="metric-value">91%</div>
+                        <div class="metric-value" id="safetyValue">91%</div>
                         <div class="metric-label">Safety Index</div>
-                        <div class="metric-status">Very Safe</div>
-                        <div class="metric-trend">↑ +2%</div>
+                        <div class="metric-status status-excellent">Very Safe</div>
+                        <div class="metric-trend trend-up">↑ +2%</div>
                     </div>
                     <div class="flip-card-back">
                         <h3>Safety Details</h3>
                         <p>Emergency response: 4 mins avg.</p>
                         <p>1,500+ active patrols</p>
                         <p>Crime rate down 5% vs. last year.</p>
-                        <a href="#">View incident report</a>
+                        <a href="#" onclick="openDetailModal('safety'); return false;" class="detail-link">📋 View Incident Report</a>
                     </div>
                 </div>
             </div>
 
-        </div> </div> <div class="chatbot-container">
+        </div>
+
+        <!-- Recommendations Panel -->
+        <div class="recommendations-panel">
+            <h3>🎯 AI-Powered Recommendations</h3>
+            <div class="recommendation-items">
+                <div class="recommendation-item">
+                    <span class="rec-icon">🌳</span>
+                    <div class="rec-content">
+                        <strong>Plant More Trees</strong>
+                        <p>Adding 500 trees in Industrial South could improve air quality by 8%</p>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <span class="rec-icon">🚇</span>
+                    <div class="rec-content">
+                        <strong>Expand Metro Line</strong>
+                        <p>New route to Tech District would reduce traffic by 15%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDetailModal()">✕</button>
+            <div id="modalBody">
+                <!-- Dynamic content loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
         <button class="chat-toggle" onclick="toggleChat()">🤖</button>
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
@@ -143,10 +202,28 @@
         </div>
     </div>
 
+    <!-- Sound Effect System -->
+    <audio id="soundClick" preload="auto">
+        <source src="sounds/Soft Digital Click.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundHover" preload="auto">
+        <source src="sounds/Electric Zap.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundDataLoad" preload="auto">
+        <source src="sounds/Data Bubble.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundChatOpen" preload="auto">
+        <source src="sounds/AI Chime.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundChatMessage" preload="auto">
+        <source src="sounds/Neural Ping.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundChatSend" preload="auto">
+        <source src="sounds/Synth Pulse.mp3" type="audio/mpeg">
+    </audio>
+    
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-
     <script src="script.js"></script>
 </body>
 </html>
