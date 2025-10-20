@@ -358,7 +358,7 @@ function voiceInput() {
 // ========== GUIDED TOUR FUNCTIONALITY ==========
 
 let currentTourStep = 1;
-const totalTourSteps = 5;
+const totalTourSteps = 6;
 
 // Start Tour
 function startTour() {
@@ -394,8 +394,12 @@ function nextTourStep() {
     if (currentTourStep < totalTourSteps) {
         currentTourStep++;
         updateTourStep();
+    } else {
+        completeTour();
     }
 }
+
+
 
 // Previous Tour Step
 function prevTourStep() {
@@ -1201,3 +1205,152 @@ function showClaimStatus(message) {
 document.addEventListener('DOMContentLoaded', () => {
   updateAchievementButtons();
 });
+
+// ========== PROFILE & AUTHENTICATION SYSTEM ==========
+
+// Check if user is logged in on page load
+window.addEventListener('DOMContentLoaded', () => {
+    checkUserAuth();
+});
+
+function checkUserAuth() {
+    const currentUser = JSON.parse(localStorage.getItem('neuracityUser'));
+    
+    if (currentUser && window.location.pathname.includes('profile.html')) {
+        showProfile(currentUser);
+    }
+}
+
+// Switch between login and register forms
+function switchToRegister() {
+    document.getElementById('loginForm').classList.remove('active');
+    document.getElementById('registerForm').classList.add('active');
+}
+
+function switchToLogin() {
+    document.getElementById('registerForm').classList.remove('active');
+    document.getElementById('loginForm').classList.add('active');
+}
+
+// Handle Registration
+function handleRegister(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const city = document.getElementById('registerCity').value;
+    
+    // Create user object
+    const user = {
+        name: name,
+        email: email,
+        city: city,
+        level: 1,
+        points: 0,
+        badges: 0,
+        joinDate: new Date().toISOString()
+    };
+    
+    // Save to localStorage
+    localStorage.setItem('neuracityUser', JSON.stringify(user));
+    localStorage.setItem('neuracityPassword', password); // In production, hash this!
+    
+    // Show success and redirect to profile
+    alert('🎉 Registration successful! Welcome to NeuraCity!');
+    showProfile(user);
+}
+
+// Handle Login
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    const savedUser = JSON.parse(localStorage.getItem('neuracityUser'));
+    const savedPassword = localStorage.getItem('neuracityPassword');
+    
+    if (savedUser && savedUser.email === email && savedPassword === password) {
+        alert('✅ Login successful!');
+        showProfile(savedUser);
+    } else {
+        alert('❌ Invalid email or password. Try: any email / any password for demo');
+        // For demo purposes, create a demo user
+        const demoUser = {
+            name: 'Demo User',
+            email: email,
+            city: 'NeuraCity',
+            level: 5,
+            points: 1248,
+            badges: 12
+        };
+        localStorage.setItem('neuracityUser', JSON.stringify(demoUser));
+        showProfile(demoUser);
+    }
+}
+
+// Show Profile Section
+function showProfile(user) {
+    document.getElementById('authSection').classList.add('hidden');
+    document.getElementById('profileSection').classList.remove('hidden');
+    
+    // Populate user data
+    document.getElementById('userName').textContent = user.name;
+    document.getElementById('userEmail').textContent = user.email;
+    document.getElementById('userCity').textContent = user.city;
+    document.getElementById('userLevel').textContent = user.level || 5;
+    document.getElementById('userPoints').textContent = user.points || 1248;
+    document.getElementById('userBadges').textContent = user.badges || 12;
+    document.getElementById('leaderName').textContent = user.name;
+}
+
+// Handle Logout
+function handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+        document.getElementById('profileSection').classList.add('hidden');
+        document.getElementById('authSection').classList.remove('hidden');
+        switchToLogin();
+        
+        // Clear forms
+        document.getElementById('loginForm').reset();
+        document.getElementById('registerForm').reset();
+        
+        alert('👋 Logged out successfully!');
+    }
+}
+
+// Change Avatar
+function changeAvatar() {
+    const avatars = ['👤', '👨', '👩', '🧑', '👨‍💼', '👩‍💼', '🧑‍🎓', '👨‍🎓', '👩‍🎓', '🦸', '🦸‍♀️', '🦸‍♂️'];
+    const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+    document.getElementById('userAvatar').textContent = randomAvatar;
+}
+
+// Edit Profile
+function editProfile() {
+    const newName = prompt('Enter new name:');
+    const newCity = prompt('Enter new city:');
+    
+    if (newName) document.getElementById('userName').textContent = newName;
+    if (newCity) document.getElementById('userCity').textContent = newCity;
+    
+    // Update localStorage
+    const user = JSON.parse(localStorage.getItem('neuracityUser'));
+    if (newName) user.name = newName;
+    if (newCity) user.city = newCity;
+    localStorage.setItem('neuracityUser', JSON.stringify(user));
+    
+    alert('✅ Profile updated!');
+}
+
+// Switch Tabs
+function switchTab(tabName) {
+    // Remove active class from all tabs and panes
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+    
+    // Add active class to selected tab and pane
+    event.target.classList.add('active');
+    document.getElementById(tabName + 'Tab').classList.add('active');
+}
