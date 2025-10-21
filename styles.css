@@ -2762,3 +2762,22 @@ body.light-mode #moon-icon {
         flex-wrap: wrap;
     }
 }
+/* Theme-aware fix for all profile/auth text */
+.profile-section, .profile-container, .auth-section, .auth-container, .tab-content,
+.profile-header-card, .auth-form, .tab-btn, .stat-item, .activity-timeline, .profile-info, .activity-content, .leader-info {
+  color: var(--text-primary) !important;
+  background: var(--bg-dark); /* or use respective container's background */
+}
+.profile-info .user-email, .profile-info .user-city,
+.stat-label, .leader-info p, .points-label, .badge-item p, .achievement-card p, .rewards-info li, .activity-content p {
+  color: var(--text-secondary) !important;
+}
+/* Input fields are theme-aware */
+.auth-form input, .profile-section input {
+  color: var(--text-primary) !important;
+  background: rgba(0, 212, 255, 0.05);
+}
+.auth-form input::placeholder, .profile-section input::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
