@@ -2795,3 +2795,87 @@ body.light-mode #moon-icon {
   text-shadow: 0 0 3px var(--cyan), 0 0 7px var(--teal-light);
 }
 
+
+
+/* ========== LIGHT THEME FIX FOR PROFILE SECTION ========== */
+
+/* Fix profile text colors in light mode */
+body.light-mode .profile-section,
+body.light-mode .auth-section {
+    color: var(--text-primary);
+}
+
+body.light-mode .profile-info h2,
+body.light-mode .profile-header-card h2 {
+    color: var(--purple);
+}
+
+body.light-mode .user-email,
+body.light-mode .user-city {
+    color: #333;
+}
+
+body.light-mode .user-stats .stat-label,
+body.light-mode .leader-info p,
+body.light-mode .activity-content p {
+    color: #555;
+}
+
+body.light-mode .tab-btn {
+    color: #333;
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .tab-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .tab-btn.active {
+    color: #fff;
+}
+
+body.light-mode .tab-pane h3 {
+    color: var(--purple);
+}
+
+body.light-mode .achievement-card h4,
+body.light-mode .leader-info h4,
+body.light-mode .activity-content h4 {
+    color: var(--purple);
+}
+
+body.light-mode .achievement-card p,
+body.light-mode .badge-item p {
+    color: #555;
+}
+
+body.light-mode .profile-header-card,
+body.light-mode .tab-content,
+body.light-mode .auth-form {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .achievement-card,
+body.light-mode .badge-item,
+body.light-mode .leader-card,
+body.light-mode .activity-item {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+body.light-mode .poll-question,
+body.light-mode .auth-header p {
+    color: #333;
+}
+
+body.light-mode .auth-switch {
+    color: #555;
+}
+
+body.light-mode .auth-form input {
+    color: #333;
+    background: rgba(0, 0, 0, 0.03);
+}

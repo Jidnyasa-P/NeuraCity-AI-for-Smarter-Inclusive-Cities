@@ -13,6 +13,43 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
+    <!-- Three.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+
+    <!-- 3D City Styles -->
+    <style>
+        #threejs-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 450px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        #threejs-container canvas {
+            display: block;
+            width: 100% !important;
+            height: 450px !important;
+        }
+
+        .landing-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            #threejs-container {
+                height: 350px;
+            }
+
+            #threejs-container canvas {
+                height: 350px !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -60,6 +97,9 @@
             <div class="building"></div>
             <div class="building"></div>
         </div>
+                <!-- 3D City Scene Container -->
+        <div id="threejs-container"></div>
+
         <div class="landing-content">
             <h1 class="landing-title">NeuraCity</h1>
             <p class="tagline">AI for Smarter, Inclusive Cities</p>
@@ -206,5 +246,7 @@
 
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
+    <!-- 3D City Simulation -->
+    <script src="city3d.js"></script>
 </body>
 </html>
